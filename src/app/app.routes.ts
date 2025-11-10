@@ -5,6 +5,8 @@ export const routes: Routes = [
   { path: 'actividades', loadChildren: () => import('./features/actividades/route').then(m => m.routes) },
   { path: 'gateways', loadChildren: () => import('./features/gateways/route').then(m => m.routes) },
   { path: 'arcos', loadChildren: () => import('./features/arcos/route').then(m => m.routes) },
+  { path: 'empresas', loadChildren: () => import('./features/empresas/route').then(m => m.routes) },
+  { path: 'roles', loadChildren: () => import('./features/roles/route').then(m => m.routes) },
   { path: '', pathMatch: 'full', redirectTo: 'procesos' },
   { path: '**', redirectTo: 'procesos' }
 ];
