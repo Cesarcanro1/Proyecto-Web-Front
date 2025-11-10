@@ -1,0 +1,47 @@
+<h2 class="text-2xl font-semibold mb-4">{{ id ? 'Editar arco' : 'Nuevo arco' }}</h2>
+
+<div *ngIf="error" class="text-red-600 mb-3">{{ error }}</div>
+<div *ngIf="loading">Cargando…</div>
+
+<form [formGroup]="form" (ngSubmit)="guardar()" class="grid gap-4 max-w-2xl" *ngIf="!loading">
+  <mat-form-field appearance="outline">
+    <mat-label>Proceso</mat-label>
+    <mat-select formControlName="procesoId" required>
+      <mat-option *ngFor="let p of procesos" [value]="p.id">{{ p.nombre }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Origen - Tipo</mat-label>
+    <mat-select formControlName="origenTipo" required>
+      <mat-option *ngFor="let t of tiposNodo" [value]="t">{{ t }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Origen - ID</mat-label>
+    <input matInput type="number" formControlName="origenId" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Destino - Tipo</mat-label>
+    <mat-select formControlName="destinoTipo" required>
+      <mat-option *ngFor="let t of tiposNodo" [value]="t">{{ t }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Destino - ID</mat-label>
+    <input matInput type="number" formControlName="destinoId" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="col-span-2">
+    <mat-label>Condición (opcional)</mat-label>
+    <input matInput formControlName="condicion" placeholder="e.g., monto > 1000">
+  </mat-form-field>
+
+  <div class="flex gap-2 col-span-2">
+    <button mat-flat-button color="primary">Guardar</button>
+    <button mat-stroked-button type="button" routerLink="/arcos">Cancelar</button>
+  </div>
+</form>
