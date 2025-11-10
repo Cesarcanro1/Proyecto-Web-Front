@@ -10,8 +10,7 @@ import { Sidebar } from "../sidebar/sidebar";
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [CommonModule,
-    RouterOutlet, RouterLink, MatSidenavModule, MatToolbarModule, MatButtonModule, Topbar, Sidebar],
+  imports: [CommonModule, RouterOutlet, RouterLink, MatSidenavModule, MatToolbarModule, MatButtonModule, Topbar, Sidebar],
   templateUrl: './shell.html',
   styleUrl: './shell.scss',
 })
