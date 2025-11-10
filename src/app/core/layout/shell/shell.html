@@ -1,0 +1,12 @@
+<mat-sidenav-container class="h-screen">
+  <mat-sidenav mode="side" opened class="w-64 bg-gray-100 p-4">
+    <app-sidebar></app-sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-topbar></app-topbar>
+    <main class="p-6 bg-[#f5f5f5] min-h-screen">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
