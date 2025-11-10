@@ -37,9 +37,9 @@ export class Form {
     this.form = this.fb.group({
       procesoId: [null, Validators.required],
       origenTipo: ['Actividad', Validators.required],
-      origenId: [null, Validators.required],
+      origenId: [null, [Validators.required, Validators.min(1)]],
       destinoTipo: ['Actividad', Validators.required],
-      destinoId: [null, Validators.required],
+      destinoId: [null, [Validators.required, Validators.min(1)]],
       condicion: [''],
       status: [0],
     });
@@ -56,7 +56,7 @@ export class Form {
             origenId: a.origenId,
             destinoTipo: a.destinoTipo,
             destinoId: a.destinoId,
-            condicion: a.condicion,
+            condicion: a.condicion ?? '',
             status: a.status
           });
           this.loading = false;
@@ -67,9 +67,9 @@ export class Form {
   }
 
   guardar(){
-    if (this.form.invalid) return;
-    const dto = this.form.value;
+    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
 
+    const dto = this.form.value;
     const payload: Arco = {
       id: this.id || 0,
       proceso: { id: dto.procesoId, nombre: '' } as any,

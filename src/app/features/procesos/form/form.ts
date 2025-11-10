@@ -66,27 +66,28 @@ export class Form {
   }
 
   guardar(){
-    if (this.form.invalid) return;
-    const dto: any = this.form.value;
+  if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+  const dto: any = this.form.value;
 
-    const payload: Proceso = {
-      id: this.id || 0,
-      empresa: { id: dto.empresaId, nombre: '' } as any,
-      nombre: dto.nombre,
-      descripcion: dto.descripcion,
-      categoria: dto.categoria,
-      estado: dto.estado,
-      status: dto.status
-    } as any;
+  const payload: Proceso = {
+    id: this.id || 0,
+    empresa: { id: dto.empresaId, nombre: '' } as any,
+    nombre: dto.nombre,
+    descripcion: dto.descripcion,
+    categoria: dto.categoria,
+    estado: dto.estado,
+    status: dto.status
+  } as any;
 
-    this.loading = true;
-    const req = this.id
-      ? this.procesoService.actualizarProceso(this.id, payload)
-      : this.procesoService.crearProceso(payload);
+  this.loading = true;
+  const req = this.id
+    ? this.procesoService.actualizarProceso(this.id, payload)
+    : this.procesoService.crearProceso(payload);
 
-    req.subscribe({
-      next: () => this.router.navigate(['/procesos']),
-      error: (err) => { console.error(err); this.error = 'No se pudo guardar'; this.loading = false; }
-    });
-  }
+  req.subscribe({
+    next: () => this.router.navigate(['/procesos']),
+    error: (err) => { console.error(err); this.error = 'No se pudo guardar'; this.loading = false; }
+  });
+}
+
 }

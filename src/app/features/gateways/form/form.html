@@ -4,16 +4,26 @@
 <div *ngIf="loading">Cargando…</div>
 
 <form [formGroup]="form" (ngSubmit)="guardar()" class="grid gap-4 max-w-2xl" *ngIf="!loading">
+
   <mat-form-field appearance="outline">
     <mat-label>Proceso</mat-label>
     <mat-select formControlName="procesoId" required>
       <mat-option *ngFor="let p of procesos" [value]="p.id">{{ p.nombre }}</mat-option>
     </mat-select>
+    <mat-error *ngIf="form.get('procesoId')?.touched && form.get('procesoId')?.hasError('required')">
+      El proceso es obligatorio
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label>Nombre</mat-label>
     <input matInput formControlName="nombre" required>
+    <mat-error *ngIf="form.get('nombre')?.touched && form.get('nombre')?.hasError('required')">
+      El nombre es obligatorio
+    </mat-error>
+    <mat-error *ngIf="form.get('nombre')?.touched && form.get('nombre')?.hasError('minlength')">
+      Debe tener al menos 3 caracteres
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
@@ -23,15 +33,21 @@
       <mat-option value="Paralelo">Paralelo</mat-option>
       <mat-option value="Inclusivo">Inclusivo</mat-option>
     </mat-select>
+    <mat-error *ngIf="form.get('tipo')?.touched && form.get('tipo')?.hasError('required')">
+      El tipo es obligatorio
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="col-span-2">
     <mat-label>Descripción</mat-label>
     <textarea matInput rows="3" formControlName="descripcion" required></textarea>
+    <mat-error *ngIf="form.get('descripcion')?.touched && form.get('descripcion')?.hasError('required')">
+      La descripción es obligatoria
+    </mat-error>
   </mat-form-field>
 
   <div class="flex gap-2 col-span-2">
-    <button mat-flat-button color="primary">Guardar</button>
+    <button mat-flat-button color="primary" [disabled]="form.invalid || loading">Guardar</button>
     <button mat-stroked-button type="button" routerLink="/gateways">Cancelar</button>
   </div>
 </form>

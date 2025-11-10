@@ -71,10 +71,9 @@ export class Form {
   }
 
   guardar(){
-    if (this.form.invalid) return;
-    const dto = this.form.value;
+    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
 
-    // construir payload para el back
+    const dto = this.form.value;
     const payload: Actividad = {
       id: this.id || 0,
       proceso: { id: dto.procesoId, nombre: '' } as any,

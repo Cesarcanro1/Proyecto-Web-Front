@@ -62,7 +62,8 @@ export class Form {
   }
 
   guardar(){
-    if (this.form.invalid) return;
+    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+
     const dto = this.form.value;
     const payload: Gateway = {
       id: this.id || 0,

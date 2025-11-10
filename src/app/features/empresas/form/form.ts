@@ -44,7 +44,8 @@ export class Form {
   }
 
   guardar(){
-    if (this.form.invalid) return;
+    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+
     const payload: Empresa = { id: this.id || 0, ...this.form.value } as Empresa;
 
     this.loading = true;

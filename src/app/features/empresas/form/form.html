@@ -7,20 +7,35 @@
   <mat-form-field appearance="outline">
     <mat-label>Nombre</mat-label>
     <input matInput formControlName="nombre" required>
+    <mat-error *ngIf="form.get('nombre')?.touched && form.get('nombre')?.hasError('required')">
+      El nombre es obligatorio
+    </mat-error>
+    <mat-error *ngIf="form.get('nombre')?.touched && form.get('nombre')?.hasError('minlength')">
+      Debe tener al menos 2 caracteres
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label>NIT</mat-label>
     <input matInput formControlName="nit" required>
+    <mat-error *ngIf="form.get('nit')?.touched && form.get('nit')?.hasError('required')">
+      El NIT es obligatorio
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label>Correo de contacto</mat-label>
     <input matInput formControlName="correoContacto" required>
+    <mat-error *ngIf="form.get('correoContacto')?.touched && form.get('correoContacto')?.hasError('required')">
+      El correo es obligatorio
+    </mat-error>
+    <mat-error *ngIf="form.get('correoContacto')?.touched && form.get('correoContacto')?.hasError('email')">
+      El correo no es válido
+    </mat-error>
   </mat-form-field>
 
   <div class="flex gap-2 col-span-2">
-    <button mat-flat-button color="primary">Guardar</button>
+    <button mat-flat-button color="primary" [disabled]="form.invalid || loading">Guardar</button>
     <button mat-stroked-button type="button" routerLink="/empresas">Cancelar</button>
   </div>
 </form>

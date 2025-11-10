@@ -59,9 +59,9 @@ export class Form {
   }
 
   guardar(){
-    if (this.form.invalid) return;
-    const dto = this.form.value;
+    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
 
+    const dto = this.form.value;
     const payload: RolDeProceso = {
       id: this.id || 0,
       empresa: { id: dto.empresaId, nombre: '' } as any,
