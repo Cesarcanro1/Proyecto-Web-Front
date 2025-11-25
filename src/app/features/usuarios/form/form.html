@@ -1,0 +1,51 @@
+<h2 class="text-2xl font-semibold mb-4">{{ id ? 'Editar usuario' : 'Crear usuario' }}</h2>
+
+<div *ngIf="error" class="text-red-600 mb-3">{{ error }}</div>
+<div *ngIf="loading">Cargando…</div>
+
+<form [formGroup]="form" (ngSubmit)="guardar()" class="grid gap-4 max-w-2xl" *ngIf="!loading">
+  <mat-form-field appearance="outline">
+    <mat-label>Empresa</mat-label>
+    <mat-select formControlName="empresaId" required>
+      <mat-option *ngFor="let e of empresas" [value]="e.id">{{ e.nombre }}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('empresaId')?.touched && form.get('empresaId')?.hasError('required')">
+      La empresa es obligatoria
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Nombres</mat-label>
+    <input matInput formControlName="nombres" required>
+    <mat-error *ngIf="form.get('nombres')?.touched && form.get('nombres')?.hasError('required')">Obligatorio</mat-error>
+    <mat-error *ngIf="form.get('nombres')?.touched && form.get('nombres')?.hasError('minlength')">Min 2 chars</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Apellidos</mat-label>
+    <input matInput formControlName="apellidos" required>
+    <mat-error *ngIf="form.get('apellidos')?.touched && form.get('apellidos')?.hasError('required')">Obligatorio</mat-error>
+    <mat-error *ngIf="form.get('apellidos')?.touched && form.get('apellidos')?.hasError('minlength')">Min 2 chars</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" required>
+    <mat-error *ngIf="form.get('email')?.touched && form.get('email')?.hasError('required')">Obligatorio</mat-error>
+    <mat-error *ngIf="form.get('email')?.touched && form.get('email')?.hasError('email')">Email inválido</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Contraseña</mat-label>
+    <input matInput type="password" formControlName="password" [required]="!id">
+    <mat-error *ngIf="form.get('password')?.touched && form.get('password')?.hasError('required')">Obligatoria</mat-error>
+    <mat-error *ngIf="form.get('password')?.touched && form.get('password')?.hasError('minlength')">Min 6 chars</mat-error>
+  </mat-form-field>
+
+  <div class="flex gap-2 col-span-2">
+    <button mat-flat-button color="primary" [disabled]="form.invalid || loading">
+      {{ id ? 'Actualizar' : 'Guardar' }}
+    </button>
+    <button mat-stroked-button type="button" routerLink="/usuarios">Cancelar</button>
+  </div>
+</form>

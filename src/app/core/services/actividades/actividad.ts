@@ -1,43 +1,48 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Actividad } from '../../models/actividad.interface';
+import { AuthService } from '../auth/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActividadService {
+
   private apiUrl = 'http://backend.10.43.103.143.nip.io/api/actividades';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
-  // Obtener todas las actividades activas
   obtenerTodos(): Observable<Actividad[]> {
-    return this.http.get<Actividad[]>(this.apiUrl);
+    const headers = this.authService.getAuthHeaders();
+    return this.http.get<Actividad[]>(this.apiUrl, { headers });
   }
 
-  // Obtener todas las actividades (incluyendo eliminadas)
   obtenerTodosInclusoEliminados(): Observable<Actividad[]> {
-    return this.http.get<Actividad[]>(`${this.apiUrl}/all-including-deleted`);
+    const headers = this.authService.getAuthHeaders();
+    return this.http.get<Actividad[]>(`${this.apiUrl}/all-including-deleted`, { headers });
   }
 
-  // Obtener una actividad por ID
   obtenerPorId(id: number): Observable<Actividad> {
-    return this.http.get<Actividad>(`${this.apiUrl}/${id}`);
+    const headers = this.authService.getAuthHeaders();
+    return this.http.get<Actividad>(`${this.apiUrl}/${id}`, { headers });
   }
 
-  // Crear una nueva actividad
   crearActividad(actividad: Actividad): Observable<Actividad> {
-    return this.http.post<Actividad>(this.apiUrl, actividad);
+    const headers = this.authService.getAuthHeaders();
+    return this.http.post<Actividad>(this.apiUrl, actividad, { headers });
   }
 
-  // Actualizar una actividad existente
   actualizarActividad(id: number, actividad: Actividad): Observable<Actividad> {
-    return this.http.put<Actividad>(`${this.apiUrl}/${id}`, actividad);
+    const headers = this.authService.getAuthHeaders();
+    return this.http.put<Actividad>(`${this.apiUrl}/${id}`, actividad, { headers });
   }
 
-  // Eliminar una actividad (soft delete)
   eliminarActividad(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    const headers = this.authService.getAuthHeaders();
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
   }
 }

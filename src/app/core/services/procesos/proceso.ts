@@ -1,43 +1,57 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Proceso } from '../../models/proceso.interface';
+import { AuthService } from '../auth/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProcesoService {
-  private apiUrl = 'http://backend.10.43.103.143.nip.io/api/procesos';
+  private readonly apiUrl = 'http://backend.10.43.103.143.nip.io/api/procesos';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private auth: AuthService
+  ) {}
+
+  /** Headers con Authorization: Bearer <token> */
+  private authOptions() {
+    const token = this.auth.getToken();
+    return token
+      ? { headers: new HttpHeaders({ Authorization: `Bearer ${token}` }) }
+      : {};
+  }
+
+  /** ================= CRUD ================= */
 
   // Obtener todos los procesos activos
   obtenerTodos(): Observable<Proceso[]> {
-    return this.http.get<Proceso[]>(this.apiUrl);
+    return this.http.get<Proceso[]>(this.apiUrl, this.authOptions());
   }
 
-  // Obtener todos los procesos (incluyendo eliminados)
+  // Obtener todos (incluyendo eliminados)
   obtenerTodosInclusoEliminados(): Observable<Proceso[]> {
-    return this.http.get<Proceso[]>(`${this.apiUrl}/all-including-deleted`);
+    return this.http.get<Proceso[]>(`${this.apiUrl}/all-including-deleted`, this.authOptions());
   }
 
-  // Obtener un proceso por ID
+  // Obtener proceso por ID
   obtenerPorId(id: number): Observable<Proceso> {
-    return this.http.get<Proceso>(`${this.apiUrl}/${id}`);
+    return this.http.get<Proceso>(`${this.apiUrl}/${id}`, this.authOptions());
   }
 
-  // Crear un nuevo proceso
+  // Crear nuevo proceso
   crearProceso(proceso: Proceso): Observable<Proceso> {
-    return this.http.post<Proceso>(this.apiUrl, proceso);
+    return this.http.post<Proceso>(this.apiUrl, proceso, this.authOptions());
   }
 
-  // Actualizar un proceso existente
+  // Actualizar proceso existente
   actualizarProceso(id: number, proceso: Proceso): Observable<Proceso> {
-    return this.http.put<Proceso>(`${this.apiUrl}/${id}`, proceso);
+    return this.http.put<Proceso>(`${this.apiUrl}/${id}`, proceso, this.authOptions());
   }
 
-  // Eliminar 
+  // Eliminar proceso
   eliminarProceso(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, this.authOptions());
   }
 }
