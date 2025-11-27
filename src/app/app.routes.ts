@@ -1,16 +1,46 @@
 import { Routes } from '@angular/router';
-import { Login } from './features/auth/login/login';
-import { Register } from './features/auth/register/register';
+
+import { LoginComponent } from './features/login/login/login';
+import { Register } from './features/register/register/register';
+import { AuthGuard } from './guards/auth-guard';
+
+
 
 export const routes: Routes = [
-  { path: 'login', loadComponent: () => import('./features/auth/login/login').then(m => m.Login) },
+  // PUBLIC
+  { path: 'login', component: LoginComponent },
   { path: 'register', component: Register },
-  { path: 'procesos', loadChildren: () => import('./features/procesos/route').then(m => m.routes) },
-  { path: 'actividades', loadChildren: () => import('./features/actividades/route').then(m => m.routes) },
-  { path: 'gateways', loadChildren: () => import('./features/gateways/route').then(m => m.routes) },
-  { path: 'arcos', loadChildren: () => import('./features/arcos/route').then(m => m.routes) },
-  { path: 'empresas', loadChildren: () => import('./features/empresas/route').then(m => m.routes) },
-  { path: 'roles', loadChildren: () => import('./features/roles/route').then(m => m.routes) },
-  { path: '', pathMatch: 'full', redirectTo: 'procesos' },
+
+  // PRIVADO
+  {
+    path: '',
+    canActivate: [AuthGuard],
+    loadComponent: () =>
+      import('./features/dashboard/dashboard/dashboard')
+        .then(m => m.Dashboard),
+
+    children: [
+      {
+        path: 'procesos',
+        loadChildren: () =>
+          import('./features/procesos/route')
+            .then(m => m.routes)
+      },
+      {
+        path: 'actividades',
+        loadChildren: () =>
+          import('./features/actividades/route')
+            .then(m => m.routes)
+      },
+      {
+        path: 'empresas',
+        loadChildren: () =>
+          import('./features/empresas/route')
+            .then(m => m.routes)
+      }
+    ]
+  },
+
+  { path: '', redirectTo: 'procesos', pathMatch: 'full' },
   { path: '**', redirectTo: 'procesos' }
 ];

@@ -1,0 +1,54 @@
+<div class="procesos-wrapper">
+
+  <div class="header">
+    <h2>Procesos</h2>
+
+    <div class="actions">
+      <!-- Botón para abrir el modelador -->
+      <button class="btn-secondary" routerLink="modeler">
+        🧩 Modelador
+      </button>
+
+      <!-- Botón para crear proceso -->
+      <button class="btn-primary" routerLink="create">
+        + Crear Proceso
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let p of procesos">
+          <td>{{ p.id }}</td>
+          <td>{{ p.nombre }}</td>
+          <td>
+            <span class="badge" [class.published]="p.estado === 'Publicado'">
+              {{ p.estado }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-edit" [routerLink]="['/procesos/edit', p.id]">
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="no-data" *ngIf="procesos.length === 0">
+      No hay procesos registrados.
+    </p>
+
+  </div>
+
+</div>

@@ -1,9 +1,25 @@
 import { Routes } from '@angular/router';
-import { Lista } from './lista/lista';
-import { Form } from './form/form';
+import { ListComponent } from './list/list';
+import { Create } from './create/create';
+import { Edit } from './edit/edit';
 
 export const routes: Routes = [
-  { path: '', component: Lista },
-  { path: 'new', component: Form },
-  { path: ':id/edit', component: Form },
+
+  // LISTA DE PROCESOS
+  { path: '', component: ListComponent },
+
+  // CREAR PROCESO
+  { path: 'create', component: Create },
+
+  // EDITAR PROCESO
+  { path: 'edit/:id', component: Edit },
+
+  // MODELER (Drag & Drop)
+  {
+    path: 'modeler',
+    loadComponent: () =>
+      import('./modeler/modeler.component')
+        .then(m => m.ModelerComponent)
+  }
+
 ];

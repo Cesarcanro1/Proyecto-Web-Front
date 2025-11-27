@@ -1,0 +1,32 @@
+<div class="procesos-container">
+
+  <div class="header">
+    <h2>Procesos</h2>
+    <button class="btn-crear">+ Crear Proceso</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let p of procesos">
+          <td>{{ p.id }}</td>
+          <td>{{ p.nombre }}</td>
+          <td>{{ p.estado }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="no-data" *ngIf="procesos.length === 0">
+    No hay procesos registrados.
+  </p>
+
+</div>

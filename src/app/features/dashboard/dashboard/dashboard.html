@@ -1,0 +1,17 @@
+<div class="dashboard-wrapper">
+
+  <!-- ENCABEZADO -->
+  <header class="dashboard-header">
+    <h1 class="dashboard-title">Panel de Administración</h1>
+
+    <div class="dashboard-actions">
+      <button class="btn-logout" (click)="logout()">Salir</button>
+    </div>
+  </header>
+
+  <!-- AQUÍ ES DONDE SE PINTAN LAS VISTAS HIJAS -->
+  <main class="dashboard-content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>
